@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             tvCount.text = shopItem.count.toString()
             view.setOnLongClickListener {
                 viewModel.changeEnableState(shopItem)
-                Toast.makeText(this, "Long click detected", Toast.LENGTH_SHORT).show()
                 true
             }
             llShopList.addView(view)
