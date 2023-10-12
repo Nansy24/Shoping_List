@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.shopinglist.R
 import com.example.shopinglist.domain.ShopItem
