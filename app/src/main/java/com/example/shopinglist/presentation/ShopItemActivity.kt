@@ -4,22 +4,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.example.shopinglist.R
 import com.example.shopinglist.domain.ShopItem
-import com.google.android.material.textfield.TextInputLayout
 import java.lang.RuntimeException
 
-class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishListener {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShopItem.UNDEFINED_ID
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
@@ -28,18 +21,23 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishLi
             launchRightMode()
         }
     }
+
+    override fun onEditingFinished() {
+        finish()
+    }
+
     private fun launchRightMode() {
         val fragment = when (screenMode) {
             MODE_EDIT -> ShopItemFragment.newInstanceEditItem(shopItemId)
-            MODE_ADD -> ShopItemFragment.newInstanceAddItem()
-            else -> throw RuntimeException("Unknown screen mode $screenMode")
+            MODE_ADD  -> ShopItemFragment.newInstanceAddItem()
+            else      -> throw RuntimeException("Unknown screen mode $screenMode")
         }
         supportFragmentManager.beginTransaction()
             .replace(R.id.shop_item_container, fragment)
             .commit()
     }
 
-    private fun parseIntent(){
+    private fun parseIntent() {
         if (!intent.hasExtra(EXTRA_SCREEN_MODE)) {
             throw RuntimeException("Param screen mode is absent")
         }
@@ -57,6 +55,7 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishLi
     }
 
     companion object {
+
         private const val EXTRA_SCREEN_MODE = "extra_mode"
         private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
         private const val MODE_EDIT = "mode_edit"
@@ -74,10 +73,6 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishLi
             intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
             intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
             return intent
-       }
-    }
-
-    override fun onEditingFinished() {
-        finish()
+        }
     }
 }

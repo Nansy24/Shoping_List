@@ -8,4 +8,3 @@
     tools:context=".presentation.ShopItemActivity"
     tools:layout="@layout/fragment_shop_item"
     />
-
